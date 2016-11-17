@@ -16,6 +16,7 @@ int main(int argc, char const *argv[]) {
   int** matriz = NULL;
   int puntoJ1=0;
   int puntosJ2=0;
+
   /*
   El jugador 1 es par y el 2 Impar
   */
@@ -47,7 +48,35 @@ int main(int argc, char const *argv[]) {
         imprimirMatriz(matriz, size, jugador1, jugador2, puntoJ1, puntosJ2);
         do{
           if(turno%2==0){
+            int x=0; //j
+            int y=0; //i
+            do{ // ciclo que se asegura que los jugadores ingresen coordenadas correctas
+              cout << "Ingrese la coordenada que desea modificar: "<<endl;
+              cout << "X: ";
+              cin >> x; //asigna x
+              if(x<0 || x>=size){
+                cout << "Ingreso un numero fuera de el tablero" << endl;
+              }
+            }while(x<0 || x>=size);
+            do{ // ciclo que se asegura que los jugadores ingresen coordenadas correctas
+              cout << endl;//salto de linea
+              cout << "Y: ";
+              cin >> y; //asigna y
+              if(y<0 || y>=size){
+                cout << "Ingreso un numero fuera de el tablero" << endl;
+              }
+            }while(y<0 || y>=size);
             
+
+
+
+
+
+
+
+
+
+
 
           }else{
 
