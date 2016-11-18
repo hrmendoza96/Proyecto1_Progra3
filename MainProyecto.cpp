@@ -8,9 +8,14 @@ bool validarNumero(int);
 void imprimirMenu();
 void imprimirMatriz(int**, int, string, string, int,int);
 bool verificarFilas(int**, int);
+bool verificarFilas2(int**, int);
 bool verificarColumnas(int**, int);
+bool verificarColumnas2(int**, int);
 bool verificarDiagonal(int**, int);
+bool verificarDiagonal2(int**, int);
 bool verificarDiagonalOpuesta(int**, int);
+bool verificarDiagonalOpuesta2(int**, int);
+bool verificarEmpate(int**, int);
 
 int main(int argc, char const *argv[]) {
   int opcion=0;
@@ -26,6 +31,7 @@ int main(int argc, char const *argv[]) {
   */
   int turno=0;
   bool win=false;
+  bool empate=false;
 
   do{
     imprimirMenu();
@@ -84,17 +90,37 @@ int main(int argc, char const *argv[]) {
                 imprimirMatriz(matriz, size, jugador1, jugador2, puntoJ1, puntosJ2);
                 cout << endl;
                 win = verificarFilas(matriz, size);
+                if(win == false){
+                  win = verificarFilas2(matriz, size);
+                }
                 if(win==false){
                   win = verificarColumnas(matriz, size);
+                  if(win==false){
+                    win = verificarColumnas2(matriz,size);
+                  }
                     if(win==false){
                       win = verificarDiagonal(matriz, size);
+                      if(win==false){
+                        win = verificarDiagonal2(matriz,size);
+                      }
                         if(win==false){
                           win = verificarDiagonalOpuesta(matriz, size);
-                          if(win == true){
+                          if(win==false){
+                            win = verificarDiagonalOpuesta2(matriz, size);
+                          }
+                          if(win == false){
+                            empate=verificarEmpate(matriz,size);
+                            if(empate==true){
                               cout << endl;
-                              cout << "Gane!" << endl;
-                              cout << "Punto para " << jugador1 << "! "<<endl;
-                              puntoJ1++;
+                              win = true;
+                              cout << "Empate, punto para nadie." << endl;
+                              cout << endl;
+                            }
+                          }else{
+                            cout << endl;
+                            cout << "Gane!" << endl;
+                            cout << "Punto para " << jugador1 << "! "<<endl;
+                            puntoJ1++;
                           } // fin if diagonal opuesta
                         }else{
                           cout << endl;
@@ -158,18 +184,39 @@ int main(int argc, char const *argv[]) {
                 imprimirMatriz(matriz, size, jugador1, jugador2, puntoJ1, puntosJ2);
                 cout << endl;
                 win = verificarFilas(matriz, size);
+                if(win == false){
+                  win = verificarFilas2(matriz, size);
+                }
                 if(win==false){
                   win = verificarColumnas(matriz, size);
+                  if(win==false){
+                    win = verificarColumnas2(matriz,size);
+                  }
                     if(win==false){
                       win = verificarDiagonal(matriz, size);
+                      if(win==false){
+                        win = verificarDiagonal2(matriz,size);
+                      }
                         if(win==false){
                           win = verificarDiagonalOpuesta(matriz, size);
-                          if(win == true){
+                          //===========
+                          if(win==false){
+                            win = verificarDiagonalOpuesta2(matriz, size);
+                          }
+                          if(win == false){
+                            empate=verificarEmpate(matriz,size);
+                            if(empate==true){
                               cout << endl;
-                              cout << "Gane!" << endl;
-                              cout << "Punto para " << jugador2 << "! "<<endl;
-                              puntosJ2++;
-                          } // fin if diagonal opuesta
+                              win=true;
+                              cout << "Empate, punto para nadie." << endl;
+                              cout << endl;
+                            }
+                          }else{
+                            cout << endl;
+                            cout << "Gane!" << endl;
+                            cout << "Punto para " << jugador1 << "! "<<endl;
+                            puntoJ1++;
+                          }
                         }else{
                           cout << endl;
                           cout << "Gane!" << endl;
@@ -254,8 +301,8 @@ bool verificarFilas(int** matriz, int size){
     }
   }
 
-  //cout << "numero evaluar Filas : " << numeroEvaluar << endl;
-  //cout << endl;
+  cout << "numero evaluar Filas : " << numeroEvaluar << endl;
+  cout << endl;
 
   esPrimo=validarNumero(numeroEvaluar);
 
@@ -273,7 +320,45 @@ bool verificarFilas(int** matriz, int size){
 
 }
 
-//=======================================Columnas===============================
+//================================Fila 2========================================
+bool verificarFilas2(int** matriz, int size){
+  int numeroEvaluar=0;
+  int contadorFil=0;
+  bool esPrimo=false;
+
+  do{ // Verificar Cada Fila
+
+  for (int i = 0; i < size ; i++) {
+    for (int j = size-1; j >= 0; j--) {
+      if(contadorFil==i){
+          numeroEvaluar+= matriz[i][j];
+          if(j>0){
+            numeroEvaluar=numeroEvaluar*10;
+          }
+      }
+    }
+  }
+
+  cout << "numero evaluar Filas 2: " << numeroEvaluar << endl;
+  cout << endl;
+
+  esPrimo=validarNumero(numeroEvaluar);
+
+  if(esPrimo==true){
+    contadorFil=size;
+  }else{
+      contadorFil++;
+      numeroEvaluar=0;
+  }
+
+}while(contadorFil<size);
+
+  return esPrimo;
+
+
+}
+
+//=================================Columnas=====================================
 
 
 bool verificarColumnas(int** matriz, int size){
@@ -293,8 +378,45 @@ bool verificarColumnas(int** matriz, int size){
       }
     }
   }
-  //cout << "numero evaluar Columnas : " << numeroEvaluar << endl;
-  //cout << endl;
+  cout << "numero evaluar Columnas : " << numeroEvaluar << endl;
+  cout << endl;
+
+  esPrimo=validarNumero(numeroEvaluar);
+
+  if(esPrimo==true){
+    contadorCol=size;
+  }else{
+      contadorCol++;
+      numeroEvaluar=0;
+  }
+
+}while(contadorCol<size);
+
+  return esPrimo;
+
+
+}
+
+//================================Columnas 2====================================
+bool verificarColumnas2(int** matriz, int size){
+  int numeroEvaluar=0;
+  int contadorCol=0;
+  bool esPrimo=false;
+
+  do{ // Verificar Cada Fila
+
+  for (int j = 0; j < size; j++) {
+    for (int i = size-1; i >=0; i--) {
+      if(contadorCol==j){
+          numeroEvaluar+= matriz[i][j]; // recorre la matriz por columnas
+          if(i>0){ // se multiplicara por 10 solo size veces menos 1
+            numeroEvaluar=numeroEvaluar*10;
+          }
+      }
+    }
+  }
+  cout << "numero evaluar Columnas 2: " << numeroEvaluar << endl;
+  cout << endl;
 
   esPrimo=validarNumero(numeroEvaluar);
 
@@ -329,8 +451,34 @@ bool verificarDiagonal(int** matriz, int size){
     }
   }
 
-  //cout << "numero evaluar Diagonal : " << numeroEvaluar << endl;
-  //cout << endl;
+  cout << "numero evaluar Diagonal : " << numeroEvaluar << endl;
+  cout << endl;
+
+  esPrimo=validarNumero(numeroEvaluar);
+
+  return esPrimo;
+
+
+}
+
+//===================================Diagonal 2==================================
+bool verificarDiagonal2(int** matriz, int size){
+  int numeroEvaluar=0;
+  bool esPrimo=false;
+
+  for (int i = size-1; i >= 0; i--) {
+    for (int j = size-1; j >=0; j--) {
+      if(i==j){
+          numeroEvaluar+= matriz[i][j];
+          if(j>0){ // se multiplicara por 10 solo size veces menos 1
+            numeroEvaluar=numeroEvaluar*10;
+          }
+      }
+    }
+  }
+
+  cout << "numero evaluar Diagonal 2 : " << numeroEvaluar << endl;
+  cout << endl;
 
   esPrimo=validarNumero(numeroEvaluar);
 
@@ -344,8 +492,34 @@ bool verificarDiagonalOpuesta(int** matriz, int size){
   int numeroEvaluar=0;
   bool esPrimo=false;
 
-  for (int i = 0; i < size; i++) {
+  for (int i = size-1; i >=0; i--) {
     for (int j = 0; j < size; j++) {
+      if(i+j==size-1){
+          numeroEvaluar+= matriz[i][j];
+          if(i>0){ // se multiplicara por 10 solo size veces menos 1
+            numeroEvaluar=numeroEvaluar*10;
+          }
+      }
+    }
+  }
+
+  cout << "numero evaluar Diagonal Opuesta : " << numeroEvaluar << endl;
+  cout << endl;
+
+  esPrimo=validarNumero(numeroEvaluar);
+
+  return esPrimo;
+
+
+}
+
+//===========================Diagonal Opuesta 2===================================
+bool verificarDiagonalOpuesta2(int** matriz, int size){
+  int numeroEvaluar=0;
+  bool esPrimo=false;
+
+  for (int i = 0; i < size; i++) {
+    for (int j = size-1; j >=0; j--) {
       if(i+j==size-1){
           numeroEvaluar+= matriz[i][j];
           if(i<size-1){ // se multiplicara por 10 solo size veces menos 1
@@ -355,8 +529,8 @@ bool verificarDiagonalOpuesta(int** matriz, int size){
     }
   }
 
-  //cout << "numero evaluar Diagonal Opuesta : " << numeroEvaluar << endl;
-  //cout << endl;
+  cout << "numero evaluar Diagonal Opuesta 2: " << numeroEvaluar << endl;
+  cout << endl;
 
   esPrimo=validarNumero(numeroEvaluar);
 
@@ -364,6 +538,30 @@ bool verificarDiagonalOpuesta(int** matriz, int size){
 
 
 }
+
+//=========================Empate===============================================
+bool verificarEmpate(int** matriz, int size){
+  int cont=0;
+  bool empate=false;
+
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size; j++) {
+      if(matriz[i][j]==0){
+        cont++;
+      }
+    }
+  }
+
+  if(cont==0){
+    empate=true;
+  }
+
+  return empate;
+
+
+}
+
+
 
 
 
